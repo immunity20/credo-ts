@@ -1,80 +1,136 @@
-import type { ConnectionRecord, CredentialExchangeRecord, ProofExchangeRecord } from '@credo-ts/didcomm'
+import type {
+  ConnectionRecord,
+  CredentialExchangeRecord,
+  ProofExchangeRecord,
+} from "@credo-ts/didcomm";
 
-import { BaseAgent } from './BaseAgent'
-import { Output, greenText, redText } from './OutputClass'
+import { BaseAgent } from "./BaseAgent";
+import { Output, greenText, redText } from "./OutputClass";
 
 export class Alice extends BaseAgent {
-  public connected: boolean
-  public connectionRecordFaberId?: string
+  public connected: boolean;
+  public connectionRecordFaberId?: string;
 
-  public constructor(port: number, name: string) {
-    super({ port, name })
-    this.connected = false
+  public constructor(port: number, name: string, endpoints?: string[]) {
+    super({ port, name, endpoints });
+    this.connected = false;
   }
 
-  public static async build(): Promise<Alice> {
-    const alice = new Alice(9000, 'alice')
-    await alice.initializeAgent()
-    return alice
+  public static async build(
+    endpoints?: string[],
+    port?: number,
+    name?: string
+  ): Promise<Alice> {
+    // Alice runs on server1 with holder.yanis.gr domain
+    // Need to specify external endpoint so verifier can reach back to Alice
+    const alicePort = port || 3001;
+    const aliceName = name || "alice";
+    const alice = new Alice(alicePort, aliceName, endpoints);
+    await alice.initializeAgent();
+    return alice;
   }
 
   private async getConnectionRecord() {
     if (!this.connectionRecordFaberId) {
-      throw Error(redText(Output.MissingConnectionRecord))
+      throw Error(redText(Output.MissingConnectionRecord));
     }
-    return await this.agent.modules.connections.getById(this.connectionRecordFaberId)
+    return await this.agent.modules.connections.getById(
+      this.connectionRecordFaberId
+    );
   }
 
   private async receiveConnectionRequest(invitationUrl: string) {
-    const { connectionRecord } = await this.agent.modules.oob.receiveInvitationFromUrl(invitationUrl)
+    console.log(`🔍 Parsing invitation URL: ${invitationUrl}`);
+
+    const { connectionRecord, outOfBandRecord } =
+      await this.agent.modules.oob.receiveInvitationFromUrl(invitationUrl);
+
     if (!connectionRecord) {
-      throw new Error(redText(Output.NoConnectionRecordFromOutOfBand))
+      throw new Error(redText(Output.NoConnectionRecordFromOutOfBand));
     }
-    return connectionRecord
+
+    console.log(`📋 Out-of-band record details:`, {
+      id: outOfBandRecord.id,
+      state: outOfBandRecord.state,
+      autoAcceptConnection: outOfBandRecord.autoAcceptConnection,
+    });
+
+    return connectionRecord;
   }
 
   private async waitForConnection(connectionRecord: ConnectionRecord) {
-    const record = await this.agent.modules.connections.returnWhenIsConnected(connectionRecord.id)
-    this.connected = true
-    console.log(greenText(Output.ConnectionEstablished))
-    return record.id
+    console.log(
+      `🔄 Waiting for connection ${connectionRecord.id} to establish...`
+    );
+
+    try {
+      // Increase timeout to 60 seconds for cross-network connections
+      const record = await this.agent.modules.connections.returnWhenIsConnected(
+        connectionRecord.id,
+        { timeoutMs: 60000 } // 60 second timeout instead of default 20 seconds
+      );
+      console.log("omg2");
+      this.connected = true;
+      console.log(greenText(Output.ConnectionEstablished));
+      return record.id;
+    } catch (error) {
+      console.log(`❌ Connection timeout after 60 seconds. Error:`, error);
+      throw error;
+    }
   }
 
   public async acceptConnection(invitation_url: string) {
-    const connectionRecord = await this.receiveConnectionRequest(invitation_url)
-    this.connectionRecordFaberId = await this.waitForConnection(connectionRecord)
+    console.log(`📨 Accepting invitation from URL: ${invitation_url}`);
+    const connectionRecord = await this.receiveConnectionRequest(
+      invitation_url
+    );
+    console.log(`🔗 Connection record created:`, {
+      id: connectionRecord.id,
+      state: connectionRecord.state,
+      theirDid: connectionRecord.theirDid,
+      outOfBandId: connectionRecord.outOfBandId,
+    });
+    this.connectionRecordFaberId = await this.waitForConnection(
+      connectionRecord
+    );
   }
 
-  public async acceptCredentialOffer(credentialRecord: CredentialExchangeRecord) {
+  public async acceptCredentialOffer(
+    credentialRecord: CredentialExchangeRecord
+  ) {
     await this.agent.modules.credentials.acceptOffer({
       credentialRecordId: credentialRecord.id,
-    })
+    });
   }
 
   public async acceptProofRequest(proofRecord: ProofExchangeRecord) {
-    const requestedCredentials = await this.agent.modules.proofs.selectCredentialsForRequest({
-      proofRecordId: proofRecord.id,
-    })
+    const requestedCredentials =
+      await this.agent.modules.proofs.selectCredentialsForRequest({
+        proofRecordId: proofRecord.id,
+      });
 
     await this.agent.modules.proofs.acceptRequest({
       proofRecordId: proofRecord.id,
       proofFormats: requestedCredentials.proofFormats,
-    })
-    console.log(greenText('\nProof request accepted!\n'))
+    });
+    console.log(greenText("\nProof request accepted!\n"));
   }
 
   public async sendMessage(message: string) {
-    const connectionRecord = await this.getConnectionRecord()
-    await this.agent.modules.basicMessages.sendMessage(connectionRecord.id, message)
+    const connectionRecord = await this.getConnectionRecord();
+    await this.agent.modules.basicMessages.sendMessage(
+      connectionRecord.id,
+      message
+    );
   }
 
   public async exit() {
-    console.log(Output.Exit)
-    await this.agent.shutdown()
-    process.exit(0)
+    console.log(Output.Exit);
+    await this.agent.shutdown();
+    process.exit(0);
   }
 
   public async restart() {
-    await this.agent.shutdown()
+    await this.agent.shutdown();
   }
 }
