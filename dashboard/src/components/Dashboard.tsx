@@ -222,7 +222,7 @@ const Dashboard: React.FC = () => {
 
         {/* KPIs Section */}
         <div className="form-section">
-          <h2>Set KPIs</h2>
+          <h2>Simulate send data</h2>
           <div className="kpi-form">
             <div className="form-group">
               <label htmlFor="baseLine">Baseline:</label>
@@ -258,7 +258,7 @@ const Dashboard: React.FC = () => {
               }
               className="action-button success"
             >
-              {loading ? "Submitting..." : "Set KPIs"}
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </div>
