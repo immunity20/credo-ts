@@ -1,0 +1,66 @@
+{
+  "apps": [
+    {
+      "name": "alice-server",
+      "script": "/var/www/credo-ts/demo/src/AliceRestServer.ts",
+      "interpreter": "/usr/bin/ts-node",
+      "cwd": "/var/www/credo-ts/demo",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_restarts": 3,
+      "min_uptime": "10s",
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3001"
+      },
+      "error_file": "/var/www/credo-ts/demo/logs/alice-error.log",
+      "out_file": "/var/www/credo-ts/demo/logs/alice-out.log",
+      "log_file": "/var/www/credo-ts/demo/logs/alice-combined.log",
+      "time": true
+    },
+    {
+      "name": "faber-server",
+      "script": "/var/www/credo-ts/demo/src/FaberRestServer.ts",
+      "interpreter": "/usr/bin/ts-node",
+      "cwd": "/var/www/credo-ts/demo",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_restarts": 3,
+      "min_uptime": "10s",
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3002"
+      },
+      "error_file": "/var/www/credo-ts/demo/logs/faber-error.log",
+      "out_file": "/var/www/credo-ts/demo/logs/faber-out.log",
+      "log_file": "/var/www/credo-ts/demo/logs/faber-combined.log",
+      "time": true
+    },
+    {
+      "name": "verifier-server",
+      "script": "/var/www/credo-ts/demo/src/VerifierRestServer.ts",
+      "interpreter": "/usr/bin/ts-node",
+      "cwd": "/var/www/credo-ts/demo",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_restarts": 3,
+      "min_uptime": "10s",
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3003",
+        "INFURA_API_KEY": "your_infura_api_key_here",
+        "PRIVATE_KEY": "your_private_key_here"
+      },
+      "error_file": "/var/www/credo-ts/demo/logs/verifier-error.log",
+      "out_file": "/var/www/credo-ts/demo/logs/verifier-out.log",
+      "log_file": "/var/www/credo-ts/demo/logs/verifier-combined.log",
+      "time": true
+    }
+  ]
+}

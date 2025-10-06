@@ -1,0 +1,243 @@
+/* StatsPage.css */
+.stats-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stats-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stats-title {
+  color: #1a202c;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.search-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.search-form {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-button {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.search-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.search-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: #fed7d7;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.loading-message {
+  background-color: #bee3f8;
+  border: 1px solid #90cdf4;
+  color: #2b6cb0;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.no-results {
+  background-color: #fef5e7;
+  border: 1px solid #f6e05e;
+  color: #975a16;
+  padding: 1.5rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.results-section {
+  margin-top: 2rem;
+}
+
+.kpi-summary {
+  margin-bottom: 2rem;
+}
+
+.kpi-summary h2 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.summary-card p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.summary-card strong {
+  font-weight: 600;
+}
+
+.events-section {
+  margin-top: 2rem;
+}
+
+.events-section h2 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.events-table th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.events-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.875rem;
+}
+
+.events-table tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+.events-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.hash-cell,
+.tx-cell {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.tx-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tx-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-container {
+    padding: 1rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+  }
+  
+  .search-button {
+    width: 100%;
+  }
+  
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .events-table {
+    font-size: 0.75rem;
+  }
+  
+  .events-table th,
+  .events-table td {
+    padding: 0.5rem;
+  }
+  
+  .hash-cell,
+  .tx-cell {
+    font-size: 0.7rem;
+  }
+}

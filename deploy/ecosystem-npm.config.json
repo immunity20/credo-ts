@@ -1,0 +1,60 @@
+{
+  "apps": [
+    {
+      "name": "alice-server",
+      "script": "npm",
+      "args": "run alice-server",
+      "cwd": "/path/to/your/credo-ts/demo",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3001"
+      },
+      "error_file": "./logs/alice-error.log",
+      "out_file": "./logs/alice-out.log",
+      "log_file": "./logs/alice-combined.log",
+      "time": true
+    },
+    {
+      "name": "faber-server",
+      "script": "npm",
+      "args": "run faber-server",
+      "cwd": "/path/to/your/credo-ts/demo",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3002"
+      },
+      "error_file": "./logs/faber-error.log",
+      "out_file": "./logs/faber-out.log",
+      "log_file": "./logs/faber-combined.log",
+      "time": true
+    },
+    {
+      "name": "verifier-server",
+      "script": "npm",
+      "args": "run verifier-server",
+      "cwd": "/path/to/your/credo-ts/demo",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3003",
+        "INFURA_API_KEY": "your_infura_api_key_here",
+        "PRIVATE_KEY": "your_private_key_here"
+      },
+      "error_file": "./logs/verifier-error.log",
+      "out_file": "./logs/verifier-out.log",
+      "log_file": "./logs/verifier-combined.log",
+      "time": true
+    }
+  ]
+}

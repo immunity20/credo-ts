@@ -1,0 +1,24 @@
+{
+  "name": "kpi-smart-contract",
+  "version": "1.0.0",
+  "description": "Smart contract for managing KPIs with verifiable credentials",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:sepolia": "hardhat run scripts/deploy-with-checks.js --network sepolia",
+    "deploy:check": "hardhat run scripts/deploy-with-checks.js",
+    "verify": "hardhat verify --network sepolia",
+    "node": "hardhat node"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^17.2.1"
+  }
+}
