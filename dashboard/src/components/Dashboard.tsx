@@ -30,8 +30,8 @@ const Dashboard: React.FC = () => {
     setModal({ title: "", content: null, isOpen: false });
   };
 
-  // Request CV function
-  const requestCV = async () => {
+  // Request VC function
+  const requestVC = async () => {
     if (!macAddress.trim()) {
       alert("Please enter a MAC address");
       return;
@@ -203,7 +203,7 @@ const Dashboard: React.FC = () => {
           <h2>Device Actions</h2>
           <div className="button-group">
             <button
-              onClick={requestCV}
+              onClick={requestVC}
               disabled={loading || !macAddress.trim()}
               className="action-button primary"
             >

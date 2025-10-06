@@ -7,7 +7,7 @@ A React/Vite dashboard for managing IoT devices with verifiable credentials and 
 ### Dashboard Page (`/`)
 
 - **MAC Address Input**: Enter device MAC address with auto-generated hash (`domx_ot_{macAddress}`)
-- **Request CV**: Create connection invitation for credential verification
+- **Request VC**: Create connection invitation for credential verification
 - **Verify Device**: Connect and request proof from device
 - **Set KPIs**: Submit baseline and savings data to blockchain
 - **Modal Responses**: View detailed API responses in modal dialogs
@@ -77,7 +77,7 @@ dashboard/
 
 1. Enter MAC address (e.g., `00:11:22:33:44:55`)
 2. Hash automatically generated: `domx_ot_00:11:22:33:44:55`
-3. Click "Request CV" to create connection
+3. Click "Request VC" to create connection
 4. Click "Verify Device" to request proof
 5. Enter baseline and savings values
 6. Click "Set KPIs" to submit to blockchain
